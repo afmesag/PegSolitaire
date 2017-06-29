@@ -53,7 +53,7 @@ public class Game {
 		return new int[0];
 	}
 
-	public boolean makeMove(int[] start, int[] end) {
+	public void makeMove(int[] start, int[] end) {
 		List<int[]> moves = possibleMoves(start[COORDROW], start[COORDCOL]);
 		boolean notExistsFlag = true;
 		for (int[] item : moves) {
@@ -63,13 +63,12 @@ public class Game {
 			}
 		}
 		if (notExistsFlag)
-			return false;
+			return;
 		board.setHole(start[COORDROW], start[COORDCOL]);
 		board.setPeg(end[COORDROW], end[COORDCOL]);
 		int[] direction = getDirection(start, end);
 		int[] neighbour = getNeighbour(start[COORDROW], start[COORDCOL], direction);
 		board.setHole(neighbour[COORDROW], neighbour[COORDCOL]);
-		return true;
 	}
 
 	public boolean isWin() {
@@ -81,7 +80,7 @@ public class Game {
 		for (int[] peg : listPegs) {
 			int row = peg[COORDROW];
 			int col = peg[COORDCOL];
-			if (board.getSymbol(row, col) == Symbol.I && !possibleMoves(row, col).isEmpty())
+			if (!possibleMoves(row, col).isEmpty())
 				return false;
 		}
 		return true;
