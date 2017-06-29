@@ -36,8 +36,8 @@ public class View extends JFrame implements Serializable {
 
 	/**
 	 * Sets the locations of a component in a GridBagLayout
-	 * @param gridx and integer meaning the number of column
-	 * @param gridy and integer meaning the number of row
+	 * @param gridx an integer meaning the number of column
+	 * @param gridy an integer meaning the number of row
 	 */
 	public void setGridColRow(int gridx, int gridy) {
 		c.gridx = gridx;
@@ -47,8 +47,8 @@ public class View extends JFrame implements Serializable {
 	/**
 	 * Creates and sets a JButton, locates it's position on a given layout
 	 * and finally adds it to the panel.
-	 * @param gridx and integer meaning the number of column
-	 * @param gridy and integer meaning the number of row
+	 * @param gridx an integer meaning the number of column
+	 * @param gridy an integer meaning the number of row
 	 */
 	
 	public void pegSetting(int gridx, int gridy, int button) {
