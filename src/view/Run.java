@@ -4,14 +4,18 @@
  */
 package view;
 
+import model.Game;
+
 public class Run {
-	
-	private View view;
-	
-	public Run(){
-		this.view = new View();
-	}
+	private static Game myGame = new Game();
+	private static View myView = new View();
+	private static Run myRun;
+
 	public static void main(String[] args) {
-		new Run();
+		myRun = new Run();
+		myGame.setConfiguration("Latin cross");
+		while (!myGame.isWin() && !myGame.isLose()) {
+			
+		}
 	}
 }

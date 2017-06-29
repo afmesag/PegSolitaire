@@ -1,6 +1,9 @@
 package model;
 
-public class Field {
+import java.io.Serializable;
+
+public class Field implements Serializable {
+	private static final long serialVersionUID = 4807993420635437867L;
 	private Symbol symbol;
 
 	/**

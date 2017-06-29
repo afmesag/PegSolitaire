@@ -1,12 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import model.Field.Symbol;
 
-public class Board {
+public class Board implements Serializable {
+	private static final long serialVersionUID = -7675633109310448246L;
 	private static final int SIZE = 7;
 	private static final int SIZECORNER = 2;
 	private Field[][] gameGrid = new Field[SIZE][SIZE];
@@ -107,7 +109,7 @@ public class Board {
 	 * @param col
 	 *            Column position on the board
 	 * @return <b>true</b> There is a peg<br>
-	 * 		<b>false</b> otherwise
+	 *         <b>false</b> otherwise
 	 */
 	public boolean isPeg(int row, int col) {
 		return this.gameGrid[row][col].getSymbol() == Symbol.I;
@@ -121,7 +123,7 @@ public class Board {
 	 * @param col
 	 *            Column position on the board
 	 * @return <b>true</b> There is a hole<br>
-	 * 		<b>false</b> otherwise
+	 *         <b>false</b> otherwise
 	 */
 	public boolean isHole(int row, int col) {
 		return this.gameGrid[row][col].getSymbol() == Symbol.O;
@@ -139,6 +141,7 @@ public class Board {
 		this.gameGrid[row][col].setSymbol(Symbol.I);
 		this.listPegs.add(new int[] { row, col });
 	}
+
 	/**
 	 * Set a hole in the position (row,col)
 	 * 
@@ -161,6 +164,7 @@ public class Board {
 
 	/**
 	 * Return the list of pegs
+	 * 
 	 * @return List of pegs
 	 */
 	public List<int[]> getListPegs() {

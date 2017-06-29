@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,7 +11,8 @@ import model.Field.Symbol;
 import java.util.Iterator;
 import java.util.List;
 
-public class Game {
+public class Game implements Serializable{
+	private static final long serialVersionUID = 2751443219936576304L;
 	private Board board;
 	private Map<String, int[]> directions = new HashMap<>();
 	private static final int COORDROW = 0;
