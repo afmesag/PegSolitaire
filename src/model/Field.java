@@ -3,8 +3,8 @@ package model;
 public class Field {
 	private Symbol symbol;
 
-	public Field() {
-		this.symbol = Symbol.O;
+	public Field(Symbol symbol) {
+		this.symbol = symbol;
 	}
 
 	public void setSymbol(Symbol newSymbol) {
@@ -20,9 +20,7 @@ public class Field {
 	}
 
 	/*
-	 * X = not hole
-	 * I = peg
-	 * O = hole
+	 * X = not hole I = peg O = hole
 	 */
 	public enum Symbol {
 		X, I, O
