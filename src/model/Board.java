@@ -66,18 +66,11 @@ public class Board {
 	}
 
 	public void setLatinCross() {
-		this.listPegs.add(new int[] { 1, 3 });
-		this.listPegs.add(new int[] { 2, 3 });
-		this.listPegs.add(new int[] { 3, 3 });
-		this.listPegs.add(new int[] { 4, 3 });
-		this.listPegs.add(new int[] { 2, 2 });
-		this.listPegs.add(new int[] { 2, 4 });
-		this.gameGrid[1][3].setSymbol(Symbol.I);
-		this.gameGrid[2][3].setSymbol(Symbol.I);
-		this.gameGrid[3][3].setSymbol(Symbol.I);
-		this.gameGrid[4][3].setSymbol(Symbol.I);
-		this.gameGrid[2][2].setSymbol(Symbol.I);
-		this.gameGrid[2][4].setSymbol(Symbol.I);
+		int[][] positions = { { 1, 3 }, { 2, 3 }, { 3, 3 }, { 4, 3 }, { 2, 2 }, { 2, 4 } };
+		for (int[] position : positions) {
+			this.listPegs.add(position);
+			this.gameGrid[position[0]][position[1]].setSymbol(Symbol.I);
+		}
 	}
 
 	public boolean isPeg(int row, int col) {
@@ -95,12 +88,13 @@ public class Board {
 
 	public void setHole(int row, int col) {
 		this.gameGrid[row][col].setSymbol(Symbol.O);
+		int index = 0;
 		for (int[] item : this.listPegs) {
 			if (Arrays.equals(item, new int[] { row, col })) {
-				this.listPegs.remove(item);
+				this.listPegs.remove(index);
 				break;
 			}
-
+			index++;
 		}
 	}
 

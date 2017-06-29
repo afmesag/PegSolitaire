@@ -12,9 +12,11 @@ public class TestGame {
 		while (!mygame.isWin() && !mygame.isLose()) {
 			Scanner scanner = new Scanner(System.in);
 			String line = scanner.nextLine();
-			int[] start = { Integer.parseInt(line.charAt(0) + ""), Integer.parseInt(line.charAt(2) + "") };
+			int[] start = { Integer.parseInt(Character.toString(line.charAt(0))),
+					Integer.parseInt(Character.toString(line.charAt(2))) };
 			line = scanner.nextLine();
-			int[] end = { Integer.parseInt(line.charAt(0) + ""), Integer.parseInt(line.charAt(2) + "") };
+			int[] end = { Integer.parseInt(Character.toString(line.charAt(0))),
+					Integer.parseInt(Character.toString(line.charAt(2))) };
 			mygame.makeMove(start, end);
 			System.out.println("----------------------");
 			mygame.printBoard();
