@@ -38,16 +38,24 @@ public class Controller implements ActionListener {
 		if(!(game.isWin()) || !(game.isLose())){
 			if(start.length == 0){
 				start = view.getLocation(((NButton)e.getSource()));
-				System.out.println(start[0] + ", " + start[1]);
 			}else if(end.length == 0){
 				end = view.getLocation(((NButton)e.getSource()));
-				System.out.println(end[0] + ", " + end[1]);
-				game.makeMove(start, end);
+				int[] direction = game.getDirection(start, end);
+				if(game.makeMove(start, end)){
+					int[] neighbor = game.getNeighbor(start[0], start[1], direction);
+					view.updateHole(start);
+					view.updatePeg(end);
+					view.updateHole(neighbor);
+					System.out.println();
+					//peg(end)
+					//hole(neig)
+				}
 				start = resetArray();
 				end = resetArray();
+				System.out.println("=====================");
+				System.out.println(game.printBoard());
 			}
-			System.out.println("=============================");
-			System.out.println(game.printBoard());
+			
 		}
 	}
 	public int[] resetArray(){

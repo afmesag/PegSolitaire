@@ -90,7 +90,7 @@ public class Game implements Serializable {
    * @param end   Integer array with the row ([0]) and col ([1]) of the end
    *              position
    */
-  public void makeMove(int[] start, int[] end) {
+  public boolean makeMove(int[] start, int[] end) {
     List<int[]> moves = possibleMoves(start[COORDROW], start[COORDCOL]);
     boolean notExistsFlag = true;
     for (int[] item : moves) {
@@ -100,15 +100,15 @@ public class Game implements Serializable {
       }
     }
     if (notExistsFlag)
-      return;
+      return false;
     int[] direction = getDirection(start, end);
     int[] neighbor = getNeighbor(start[COORDROW], start[COORDCOL], direction);
     if (neighbor.length == 0)
-      return;
+      return false;
     board.setHole(neighbor[COORDROW], neighbor[COORDCOL]);
     board.setHole(start[COORDROW], start[COORDCOL]);
     board.setPeg(end[COORDROW], end[COORDCOL]);
-
+    return true;
   }
 
   /**

@@ -6,7 +6,9 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,8 +22,8 @@ public class View extends JFrame implements Serializable {
 
 	private JPanel panel = new JPanel();
 	private GridBagLayout holes;
-	private NButton[] pegButtons;
-	private NButton[] holeButtons;
+	private ArrayList<NButton> pegButtons;
+	private ArrayList<NButton> holeButtons;
 	private GridBagConstraints c;
 
 	/**
@@ -31,8 +33,8 @@ public class View extends JFrame implements Serializable {
 		super("Pegs Solitaire beta - Software Maintenance");
 		setResizable(false);
 		holes = new GridBagLayout();
-		pegButtons = new NButton[32];
-		holeButtons = new NButton[1];
+		pegButtons = new ArrayList<>();
+		holeButtons = new ArrayList<>();
 		c = new GridBagConstraints();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addComponentsToPane(getContentPane());
@@ -64,17 +66,17 @@ public class View extends JFrame implements Serializable {
 	 */
 
 	public void pegSetting(int gridx, int gridy, int button) {
-		pegButtons[button] = new NButton(new JButton(),gridx,gridy);
+		pegButtons.add(new NButton(new JButton(),gridx,gridy));
 		setGridColRow(gridx, gridy);
-		panel.add(pegButtons[button], c);
+		panel.add(pegButtons.get(button), c);
 	}
 
 	public void holeSetting(int gridx, int gridy, int button) {
-		holeButtons[button] = new NButton(new JButton(),gridx,gridy);
-		holeButtons[button].setBackground(Color.GRAY);
+		holeButtons.add(new NButton(new JButton(),gridx,gridy));
+		holeButtons.get(button).setBackground(Color.GRAY);
 
 		setGridColRow(gridx, gridy);
-		panel.add(holeButtons[button], c);
+		panel.add(holeButtons.get(button), c);
 	}
 
 	public int[] getLocation(NButton buttonClicked) {
@@ -108,7 +110,7 @@ public class View extends JFrame implements Serializable {
      * @return the size of the pegButtons[] array.
      */
 	public int getNumberOfPegButtons() {
-		return pegButtons.length;
+		return pegButtons.size();
 	}
 	
 	/**
@@ -117,7 +119,7 @@ public class View extends JFrame implements Serializable {
      * @return the size of the holeButtons[] array.
      */
 	public int getNumberOfHoleButtons() {
-		return holeButtons.length;
+		return holeButtons.size();
 	}
 	
 	/**
@@ -126,7 +128,7 @@ public class View extends JFrame implements Serializable {
 	 * @return NButton with given index
 	 */
 	public NButton getHoleButton(int index){
-		return holeButtons[index];
+		return holeButtons.get(index);
 	}
 	
 	/**
@@ -135,14 +137,14 @@ public class View extends JFrame implements Serializable {
 	 * @return NButton with given index
 	 */
 	public NButton getPegButton(int index){
-		return pegButtons[index];
+		return pegButtons.get(index);
 	}
 	
 	/**
 	 * Returns an array containing the pegs in the board 
 	 * @return NButton array (pegs)
 	 */
-	public NButton[] getPegButtons(){
+	public List<NButton> getPegButtons(){
 		return pegButtons;
 	}
 	
@@ -150,7 +152,7 @@ public class View extends JFrame implements Serializable {
 	 * Returns an array containing the holes in the board 
 	 * @return NButton array (holes)
 	 */
-	public NButton[] getHoleButtons(){
+	public List<NButton> getHoleButtons(){
 		return holeButtons;
 	}
 	
@@ -160,6 +162,32 @@ public class View extends JFrame implements Serializable {
 	
 	public Boolean isHole(NButton button){
 		return Arrays.asList(holeButtons).contains(button) ? true : false;
+	}
+	
+	public void updatePeg(int[] coord){
+		int index=-1;
+		for(NButton hole : holeButtons){
+			index++;
+			if((hole.getGridx() == coord[1]) && (hole.getGridy() == coord[0])){
+				hole.setBackground(null);
+				pegButtons.add(hole);
+				holeButtons.remove(index);
+				return;
+
+			}
+		}
+	}
+	public void updateHole(int[] coord){
+		int index=-1;
+		for(NButton peg : pegButtons){
+			index++;
+			if((peg.getGridx() == coord[1]) && (peg.getGridy() == coord[0])){
+				peg.setBackground(Color.GRAY);
+				holeButtons.add(peg);
+				pegButtons.remove(index);
+				return;
+			}
+		}
 	}
 	/**
 	 * Adds the panel along with its buttons to the pane.
