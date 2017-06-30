@@ -21,6 +21,7 @@ public class Controller implements ActionListener {
 	}
 	
 	public void addActionListeners(){
+			
 			for (int i = 0; i < view.getNumberOfPegButtons(); i++) {
 	            this.view.getPegButton(i).addActionListener(this);
 	        }
@@ -30,12 +31,11 @@ public class Controller implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		if(!(game.isWin()) || !(game.isLose())){
-			for(NButton button : view.getPegButtons() )
-				System.out.println(button.getGridx() + ", " + button.getGridy());
-			}
-		
+			int[] coords = view.getLocation(((NButton)e.getSource()));
+			System.out.println(coords[0] + ", " + coords[1]);
+		}
 	}
 	
 	public boolean isGameOver(){

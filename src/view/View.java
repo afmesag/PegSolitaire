@@ -67,27 +67,26 @@ public class View extends JFrame implements Serializable {
 
 	public void pegSetting(int gridx, int gridy, int button) {
 		pegButtons[button] = new NButton(new JButton(),gridx,gridy);
-		pegButtons[button].addActionListener(e -> getLocation(gridx, gridy));
 		setGridColRow(gridx, gridy);
 		panel.add(pegButtons[button], c);
 	}
 
 	public void holeSetting(int gridx, int gridy, int button) {
+		System.out.println("hole button added");
 		holeButtons[button] = new NButton(new JButton(),gridx,gridy);
 		holeButtons[button].setBackground(Color.GRAY);
-		holeButtons[button].addActionListener(e -> System.out.println("I'm a hole in:" + gridy + " " + gridx));
 
 		setGridColRow(gridx, gridy);
 		panel.add(holeButtons[button], c);
 	}
 
 	public int[] getLocation(NButton buttonClicked) {
-		return new int[] { buttonClicked.getX(), buttonClicked.getY() };
+		return new int[] { buttonClicked.getGridx(), buttonClicked.getGridy() };
 	}
 	
-	public int[] getLocation(int gridx, int gridy) {
-		return new int[] { gridx, gridy };
-	}
+	//public int[] getLocation(int gridx, int gridy) {
+	//	return new int[] { gridx, gridy };
+	//}
 	
 	/**
 	 * Sets the default (Figure 1) configuration for Pegs solitaire game
