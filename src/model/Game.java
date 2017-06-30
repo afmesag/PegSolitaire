@@ -31,6 +31,7 @@ public class Game implements Serializable{
 
 	/**
 	 * Set the configuration of the board
+	 * 
 	 * @param name
 	 *            the configuration's name
 	 */
@@ -70,7 +71,7 @@ public class Game implements Serializable{
 	 *            Integer array with the row ([0]) and col ([1]) of the end
 	 *            position
 	 * @return Integer array with the direction<br>
-	 * 		An empty array otherwise
+	 *         An empty array otherwise
 	 * 
 	 */
 	public int[] getDirection(int[] start, int[] end) {
@@ -117,7 +118,7 @@ public class Game implements Serializable{
 	 * Check if the game is over, and if it is a win
 	 * 
 	 * @return <b>true</b> if there is one peg on the board<br>
-	 * 		<b>false</b> otherwise
+	 *         <b>false</b> otherwise
 	 */
 	public boolean isWin() {
 		return board.getListPegs().size() == 1;
@@ -127,7 +128,7 @@ public class Game implements Serializable{
 	 * Check if the game is over, and if it is a lose
 	 * 
 	 * @return <b>true</b> if the pegs have no more possible moves<br>
-	 * 		<b>false</b> otherwise
+	 *         <b>false</b> otherwise
 	 */
 	public boolean isLose() {
 		List<int[]> listPegs = board.getListPegs();
@@ -199,7 +200,7 @@ public class Game implements Serializable{
 	/**
 	 * Print the board
 	 */
-	public void printBoard() {
-		board.printBoard();
+	public String printBoard() {
+		return board.printBoard();
 	}
 }

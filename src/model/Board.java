@@ -174,12 +174,14 @@ public class Board implements Serializable {
 	/**
 	 * Print the board
 	 */
-	public void printBoard() {
+	public String printBoard() {
+		StringBuilder board = new StringBuilder();
 		for (int row = 0; row < SIZE; row++) {
 			for (int col = 0; col < SIZE; col++) {
-				System.out.print(this.gameGrid[row][col]);
+				board.append(this.gameGrid[row][col]);
 			}
-			System.out.println();
+			board.append("\n");
 		}
+		return board.toString().substring(0, board.length() - 1);
 	}
 }
