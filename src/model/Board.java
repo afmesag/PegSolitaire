@@ -107,7 +107,7 @@ public class Board {
 	 * @param col
 	 *            Column position on the board
 	 * @return <b>true</b> There is a peg<br>
-	 * 		<b>false</b> otherwise
+	 *         <b>false</b> otherwise
 	 */
 	public boolean isPeg(int row, int col) {
 		return this.gameGrid[row][col].getSymbol() == Symbol.I;
@@ -121,7 +121,7 @@ public class Board {
 	 * @param col
 	 *            Column position on the board
 	 * @return <b>true</b> There is a hole<br>
-	 * 		<b>false</b> otherwise
+	 *         <b>false</b> otherwise
 	 */
 	public boolean isHole(int row, int col) {
 		return this.gameGrid[row][col].getSymbol() == Symbol.O;
@@ -139,6 +139,7 @@ public class Board {
 		this.gameGrid[row][col].setSymbol(Symbol.I);
 		this.listPegs.add(new int[] { row, col });
 	}
+
 	/**
 	 * Set a hole in the position (row,col)
 	 * 
@@ -161,6 +162,7 @@ public class Board {
 
 	/**
 	 * Return the list of pegs
+	 * 
 	 * @return List of pegs
 	 */
 	public List<int[]> getListPegs() {
@@ -170,12 +172,14 @@ public class Board {
 	/**
 	 * Print the board
 	 */
-	public void printBoard() {
+	public String printBoard() {
+		StringBuilder board = new StringBuilder();
 		for (int row = 0; row < SIZE; row++) {
 			for (int col = 0; col < SIZE; col++) {
-				System.out.print(this.gameGrid[row][col]);
+				board.append(this.gameGrid[row][col]);
 			}
-			System.out.println();
+			board.append("\n");
 		}
+		return board.toString().substring(0, board.length() - 1);
 	}
 }
