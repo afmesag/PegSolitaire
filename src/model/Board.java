@@ -81,8 +81,10 @@ public class Board implements Serializable {
       for (int col = 0; col < SIZE; col++) {
         if (this.gameGrid[row][col].getSymbol().equals(Symbol.X) || (row == (SIZE / 2) && col == (SIZE / 2)))
           continue;
-        else
+        else{
           this.gameGrid[row][col].setSymbol(Symbol.I);
+          this.listPegs.add(new int[]{row,col});
+        }
       }
     }
   }

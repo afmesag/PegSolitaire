@@ -43,12 +43,16 @@ public class Controller implements ActionListener {
 				end = view.getLocation(((NButton)e.getSource()));
 				System.out.println(end[0] + ", " + end[1]);
 				game.makeMove(start, end);
+				start = resetArray();
+				end = resetArray();
 			}
 			System.out.println("=============================");
 			System.out.println(game.printBoard());
 		}
 	}
-	
+	public int[] resetArray(){
+		return new int[0];
+	}
 	public boolean isGameOver(){
 		return (game.isWin() || game.isLose()) ? true : false;  
 	}

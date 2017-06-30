@@ -21,7 +21,7 @@ public class TestGame {
       consoleHandler.setLevel(Level.ALL);
       fileHandler.setLevel(Level.ALL);
       Game mygame = new Game();
-      mygame.setConfiguration("Latin cross");
+      mygame.setConfiguration("");
       LOGGER.log(Level.INFO, () -> "" + mygame.printBoard());
       while (!mygame.isWin() && !mygame.isLose()) {
         Scanner scanner = new Scanner(System.in);
