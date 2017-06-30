@@ -73,7 +73,9 @@ public class Game implements Serializable {
     while (it.hasNext()) {
       String key = it.next();
       int[] direction = directions.get(key);
-      int[] possibleEnd = getJumpMove(start[COORDROW], start[COORDCOL], direction);
+      int[] possibleEnd = {};
+      if (canMove(start[COORDROW], start[COORDCOL], direction))
+        possibleEnd = getJumpMove(start[COORDROW], start[COORDCOL], direction);
       if (Arrays.equals(possibleEnd, end))
         return direction;
     }
@@ -99,11 +101,14 @@ public class Game implements Serializable {
     }
     if (notExistsFlag)
       return;
+    int[] direction = getDirection(start, end);
+    int[] neighbor = getNeighbor(start[COORDROW], start[COORDCOL], direction);
+    if (neighbor.length == 0)
+      return;
+    board.setHole(neighbor[COORDROW], neighbor[COORDCOL]);
     board.setHole(start[COORDROW], start[COORDCOL]);
     board.setPeg(end[COORDROW], end[COORDCOL]);
-    int[] direction = getDirection(start, end);
-    int[] neighbour = getNeighbor(start[COORDROW], start[COORDCOL], direction);
-    board.setHole(neighbour[COORDROW], neighbour[COORDCOL]);
+
   }
 
   /**
@@ -143,7 +148,13 @@ public class Game implements Serializable {
    * @return Integer array with position of the neighbor
    */
   public int[] getNeighbor(int row, int col, int[] direction) {
-    return new int[]{row + direction[COORDROW], col + direction[COORDCOL]};
+    int newRow = row + direction[COORDROW];
+    if (newRow < 0 || newRow >= board.getSize())
+      return new int[0];
+    int newCol = col + direction[COORDCOL];
+    if (newCol < 0 || newCol >= board.getSize())
+      return new int[0];
+    return new int[]{newRow, newCol};
   }
 
   /**
@@ -157,14 +168,17 @@ public class Game implements Serializable {
    * <b>false</b> otherwise
    */
   public boolean canMove(int row, int col, int[] direction) {
-    int[] neighbour = getNeighbor(row, col, direction);
-    if (board.isHole(neighbour[COORDROW], neighbour[COORDCOL]))
+    int[] neighbor = getNeighbor(row, col, direction);
+    if (neighbor.length == 0)
       return false;
-    int jumpRow = neighbour[COORDROW] + direction[COORDROW];
-    int jumpCol = neighbour[COORDCOL] + direction[COORDCOL];
-    if (jumpRow > board.getSize() || jumpCol > board.getSize()) {
+    if (board.isHole(neighbor[COORDROW], neighbor[COORDCOL]))
       return false;
-    }
+    int jumpRow = neighbor[COORDROW] + direction[COORDROW];
+    if (jumpRow < 0 || jumpRow >= board.getSize())
+      return false;
+    int jumpCol = neighbor[COORDCOL] + direction[COORDCOL];
+    if (jumpCol < 0 || jumpCol >= board.getSize())
+      return false;
     return board.getSymbol(jumpRow, jumpCol) == Symbol.O;
   }
 
