@@ -13,9 +13,12 @@ public class Controller implements ActionListener {
 	 
 	private Game game;
 	private View view;
+	private int[] start = {};
+	private int[] end = {};
 	
 	public Controller(){
 		this.game = new Game();
+		this.game.setConfiguration("");
 		this.view = new View();
 		addActionListeners();
 	}
@@ -33,8 +36,16 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(!(game.isWin()) || !(game.isLose())){
-			int[] coords = view.getLocation(((NButton)e.getSource()));
-			System.out.println(coords[0] + ", " + coords[1]);
+			if(start.length == 0){
+				start = view.getLocation(((NButton)e.getSource()));
+				System.out.println(start[0] + ", " + start[1]);
+			}else if(end.length == 0){
+				end = view.getLocation(((NButton)e.getSource()));
+				System.out.println(end[0] + ", " + end[1]);
+				game.makeMove(start, end);
+			}
+			System.out.println("=============================");
+			System.out.println(game.printBoard());
 		}
 	}
 	

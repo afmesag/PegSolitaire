@@ -5,15 +5,13 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Game;
 import entities.NButton;
 
 public class View extends JFrame implements Serializable {
@@ -34,7 +32,7 @@ public class View extends JFrame implements Serializable {
 		setResizable(false);
 		holes = new GridBagLayout();
 		pegButtons = new NButton[32];
-		holeButtons = new NButton[33];
+		holeButtons = new NButton[1];
 		c = new GridBagConstraints();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addComponentsToPane(getContentPane());
@@ -72,7 +70,6 @@ public class View extends JFrame implements Serializable {
 	}
 
 	public void holeSetting(int gridx, int gridy, int button) {
-		System.out.println("hole button added");
 		holeButtons[button] = new NButton(new JButton(),gridx,gridy);
 		holeButtons[button].setBackground(Color.GRAY);
 
@@ -81,12 +78,8 @@ public class View extends JFrame implements Serializable {
 	}
 
 	public int[] getLocation(NButton buttonClicked) {
-		return new int[] { buttonClicked.getGridx(), buttonClicked.getGridy() };
+		return new int[] { buttonClicked.getGridy(), buttonClicked.getGridx() };
 	}
-	
-	//public int[] getLocation(int gridx, int gridy) {
-	//	return new int[] { gridx, gridy };
-	//}
 	
 	/**
 	 * Sets the default (Figure 1) configuration for Pegs solitaire game
@@ -161,6 +154,13 @@ public class View extends JFrame implements Serializable {
 		return holeButtons;
 	}
 	
+	public Boolean isPeg(NButton button){
+		return Arrays.asList(pegButtons).contains(button) ? true : false;
+	}
+	
+	public Boolean isHole(NButton button){
+		return Arrays.asList(holeButtons).contains(button) ? true : false;
+	}
 	/**
 	 * Adds the panel along with its buttons to the pane.
 	 */
