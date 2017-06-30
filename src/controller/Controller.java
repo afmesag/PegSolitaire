@@ -10,7 +10,7 @@ import view.View;
 import entities.NButton;
 
 public class Controller implements ActionListener {
-	
+	 
 	private Game game;
 	private View view;
 	
