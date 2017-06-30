@@ -14,16 +14,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.Game;
+import entities.NButton;
 
 public class View extends JFrame implements Serializable {
 
 	private static final long serialVersionUID = -2579501939935352912L;
 
-	private final JPanel panel = new JPanel();
-	private final GridBagLayout holes;
-	private final JButton[] pegButtons;
-	private final JButton[] holeButtons;
-	private final GridBagConstraints c;
+	private JPanel panel = new JPanel();
+	private GridBagLayout holes;
+	private NButton[] pegButtons;
+	private NButton[] holeButtons;
+	private GridBagConstraints c;
 
 	/**
 	 * Constructor for the view class
@@ -32,8 +33,8 @@ public class View extends JFrame implements Serializable {
 		super("Pegs Solitaire beta - Software Maintenance");
 		setResizable(false);
 		holes = new GridBagLayout();
-		pegButtons = new JButton[33];
-		holeButtons = new JButton[33];
+		pegButtons = new NButton[32];
+		holeButtons = new NButton[33];
 		c = new GridBagConstraints();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addComponentsToPane(getContentPane());
@@ -55,7 +56,7 @@ public class View extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Creates and sets a JButton, locates it's position on a given layout and
+	 * Creates and sets a NButton, locates it's position on a given layout and
 	 * finally adds it to the panel.
 	 * 
 	 * @param gridx
@@ -65,14 +66,14 @@ public class View extends JFrame implements Serializable {
 	 */
 
 	public void pegSetting(int gridx, int gridy, int button) {
-		pegButtons[button] = new JButton();
+		pegButtons[button] = new NButton(new JButton(),gridx,gridy);
 		pegButtons[button].addActionListener(e -> getLocation(gridx, gridy));
 		setGridColRow(gridx, gridy);
 		panel.add(pegButtons[button], c);
 	}
 
 	public void holeSetting(int gridx, int gridy, int button) {
-		holeButtons[button] = new JButton();
+		holeButtons[button] = new NButton(new JButton(),gridx,gridy);
 		holeButtons[button].setBackground(Color.GRAY);
 		holeButtons[button].addActionListener(e -> System.out.println("I'm a hole in:" + gridy + " " + gridx));
 
@@ -80,10 +81,14 @@ public class View extends JFrame implements Serializable {
 		panel.add(holeButtons[button], c);
 	}
 
+	public int[] getLocation(NButton buttonClicked) {
+		return new int[] { buttonClicked.getX(), buttonClicked.getY() };
+	}
+	
 	public int[] getLocation(int gridx, int gridy) {
 		return new int[] { gridx, gridy };
 	}
-
+	
 	/**
 	 * Sets the default (Figure 1) configuration for Pegs solitaire game
 	 */
@@ -104,7 +109,59 @@ public class View extends JFrame implements Serializable {
 			}
 		}
 	}
-
+	
+	/**
+     * Returns the size of the pegButtons[] array.
+     * 
+     * @return the size of the pegButtons[] array.
+     */
+	public int getNumberOfPegButtons() {
+		return pegButtons.length;
+	}
+	
+	/**
+     * Returns the size of the holeButtons[] array.
+     * 
+     * @return the size of the holeButtons[] array.
+     */
+	public int getNumberOfHoleButtons() {
+		return holeButtons.length;
+	}
+	
+	/**
+	 * Returns a NButton representing a hole in the board
+	 * @param index and integer representing a position in an array
+	 * @return NButton with given index
+	 */
+	public NButton getHoleButton(int index){
+		return holeButtons[index];
+	}
+	
+	/**
+	 * Returns a NButton representing a peg in the board
+	 * @param index and integer representing a position in an array
+	 * @return NButton with given index
+	 */
+	public NButton getPegButton(int index){
+		return pegButtons[index];
+	}
+	
+	/**
+	 * Returns an array containing the pegs in the board 
+	 * @return NButton array (pegs)
+	 */
+	public NButton[] getPegButtons(){
+		return pegButtons;
+	}
+	
+	/**
+	 * Returns an array containing the holes in the board 
+	 * @return NButton array (holes)
+	 */
+	public NButton[] getHoleButtons(){
+		return holeButtons;
+	}
+	
 	/**
 	 * Adds the panel along with its buttons to the pane.
 	 */
@@ -118,4 +175,6 @@ public class View extends JFrame implements Serializable {
 		// Figure 1 configuration
 		pane.add(panel);
 	}
+
+
 }
