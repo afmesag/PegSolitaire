@@ -11,12 +11,15 @@ public class PegSolitaire {
 		Controller controller = new Controller();
 
 		while (!controller.isGameOver()) {
+			if(controller.wereRestarted())
+				controller = new Controller();
 			try {
 				Thread.sleep(250);
 			} catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
 		}
+		controller.informOutcome();
 	}
 
 }
