@@ -15,7 +15,7 @@ public class Controller implements ActionListener {
 	private View view;
 	private int[] start = {};
 	private int[] end = {};
-	public boolean restarted = false;
+	private boolean restarted = false;
 
 	/**
 	 * Constructor for Controller class, loads the "Figure 1" configuration by
