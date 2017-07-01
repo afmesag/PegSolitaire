@@ -3,12 +3,15 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
 import model.Field.Symbol;
+import entities.Movement;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game implements Serializable {
@@ -17,12 +20,14 @@ public class Game implements Serializable {
   private Map<String, int[]> directions = new HashMap<>();
   private static final int COORDROW = 0;
   private static final int COORDCOL = 1;
+  private transient Deque<Movement> movements;
 
   /*
    * Init board, init Map with directions
    */
   public Game() {
     board = new Board();
+    movements = new LinkedList<>();
     directions.put("up", new int[]{-1, 0});
     directions.put("down", new int[]{1, 0});
     directions.put("left", new int[]{0, -1});
@@ -108,6 +113,7 @@ public class Game implements Serializable {
     board.setHole(neighbor[COORDROW], neighbor[COORDCOL]);
     board.setHole(start[COORDROW], start[COORDCOL]);
     board.setPeg(end[COORDROW], end[COORDCOL]);
+    movements.push(new Movement(neighbor, start, end));
     return true;
   }
 
@@ -199,5 +205,13 @@ public class Game implements Serializable {
    */
   public String printBoard() {
     return board.printBoard();
+  }
+  
+  /**
+   * Gets the stack with movements
+   * @return Deque working as a stack
+   */
+  public Deque<Movement> getMovements(){
+	  return movements;
   }
 }

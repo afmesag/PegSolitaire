@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,6 +24,7 @@ public class View extends JFrame implements Serializable {
 	private ArrayList<NButton> pegButtons;
 	private ArrayList<NButton> holeButtons;
 	private NButton restart;
+	private NButton undo;
 	private GridBagConstraints c;
 
 	/**
@@ -60,10 +60,21 @@ public class View extends JFrame implements Serializable {
 	 * Creates and sets the restart button's position in GrigBagLayout and adds it to the main panel
 	 */
 	public void setRestartButton(){
-		restart = (new NButton(new JButton("restart"),7,7));
+		restart = (new NButton(new JButton("restart"),7,6));
 		restart.setText("Restart");
 		setGridColRow(7, 6);
 		panel.add(restart, c);
+	}
+	
+	/**
+	 * Creates and sets the undo button's position in GrigBagLayout and adds it to the main panel
+	 */
+	public void setUndoButton(){
+		undo = (new NButton(new JButton("undo"),7,5));
+		undo.setText("Undo");
+		setGridColRow(7, 5);
+		panel.add(undo, c);
+		undo.setEnabled(false);
 	}
 	
 	/**
@@ -182,6 +193,22 @@ public class View extends JFrame implements Serializable {
 	}
 	
 	/**
+	 * Gets the restart button
+	 * @return restart NButton 
+	 */
+	public NButton getRestartButton() {
+		return restart;
+	}
+	
+	/**
+	 * Gets the undo button
+	 * @return undo NButton 
+	 */
+	public NButton getUndoButton() {
+		return undo;
+	}
+	
+	/**
 	 * Ask if a given button is a peg
 	 * @param A button in the board
 	 * @return True if the given button is a peg, false otherwise
@@ -235,14 +262,6 @@ public class View extends JFrame implements Serializable {
 	}
 	
 	/**
-	 * Gets the restart button
-	 * @return restart NButton 
-	 */
-	public NButton getRestartButton() {
-		return restart;
-	}
-
-	/**
 	 * Adds the panel along with its buttons to the pane.
 	 */
 	public void addComponentsToPane(final Container pane) {
@@ -252,8 +271,12 @@ public class View extends JFrame implements Serializable {
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		defaultConfig();
+		setRestartButton();
+		setUndoButton();
 		// Figure 1 configuration
 		pane.add(panel);
 	}
+
+	
 
 }

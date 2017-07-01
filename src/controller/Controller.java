@@ -2,9 +2,11 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 import model.Game;
 import view.View;
+import entities.Movement;
 import entities.NButton;
 
 public class Controller implements ActionListener {
@@ -50,21 +52,43 @@ public class Controller implements ActionListener {
 	}
 	
 	/**
+	 * Undo movements if there's any 
+	 */
+	public void undo(){
+		LinkedList<Movement> movements = (LinkedList<Movement>) game.getMovements(); 
+		if(!movements.isEmpty()){
+			Movement removed = movements.removeFirst();
+			view.updatePeg(removed.getStart());
+			view.updateHole(removed.getEnd());
+			view.updatePeg(removed.getNeighbor());
+			if(movements.isEmpty()){
+				view.getUndoButton().setEnabled(false);
+			}
+		}	
+	}
+	
+	/**
 	 * Adds and action listener for every button in the game
 	 */
 	public void addActionListeners(){
-			
 			for (int i = 0; i < view.getNumberOfPegButtons(); i++) {
 	            this.view.getPegButton(i).addActionListener(this);
 	        }
 			for (int i = 0; i < view.getNumberOfHoleButtons(); i++) {
 	            this.view.getHoleButton(i).addActionListener(this);
 	        }
-			this.view.setRestartButton();
-			this.view.getRestartButton().addActionListener(e -> restartGame()); 
-					
+			this.view.getRestartButton().addActionListener(e -> restartGame());
+			this.view.getUndoButton().addActionListener(e -> undo());
 	}
 	
+	/**
+	 * Enables the undo button
+	 */
+	public void enableUndoButton(){
+		if(!view.getUndoButton().isEnabled()){
+			view.getUndoButton().setEnabled(true);
+		}
+	}
 	
 	/**
 	 * Does actions based on triggered events in the buttons of the game
@@ -83,16 +107,13 @@ public class Controller implements ActionListener {
 					view.updateHole(start);
 					view.updatePeg(end);
 					view.updateHole(neighbor);
-					System.out.println();
-					//peg(end)
-					//hole(neig)
+					enableUndoButton();
 				}
 				start = resetArray();
 				end = resetArray();
 				System.out.println("=====================");
 				System.out.println(game.printBoard());
 			}
-			
 		}
 	}
 	
