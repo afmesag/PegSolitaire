@@ -24,6 +24,7 @@ public class View extends JFrame implements Serializable {
 	private GridBagLayout holes;
 	private ArrayList<NButton> pegButtons;
 	private ArrayList<NButton> holeButtons;
+	private NButton restart;
 	private GridBagConstraints c;
 
 	/**
@@ -54,7 +55,17 @@ public class View extends JFrame implements Serializable {
 		c.gridx = gridx;
 		c.gridy = gridy;
 	}
-
+	
+	/**
+	 * Creates and sets the restart button's position in GrigBagLayout and adds it to the main panel
+	 */
+	public void setRestartButton(){
+		restart = (new NButton(new JButton("restart"),7,7));
+		restart.setText("Restart");
+		setGridColRow(7, 6);
+		panel.add(restart, c);
+	}
+	
 	/**
 	 * Creates and sets a NButton, locates it's position on a given layout and
 	 * finally adds it to the panel.
@@ -71,6 +82,15 @@ public class View extends JFrame implements Serializable {
 		panel.add(pegButtons.get(button), c);
 	}
 
+	/**
+	 * Creates and sets a NButton, locates it's position on a given layout and
+	 * finally adds it to the panel.
+	 * 
+	 * @param gridx
+	 *            an integer meaning the number of column
+	 * @param gridy
+	 *            an integer meaning the number of row
+	 */
 	public void holeSetting(int gridx, int gridy, int button) {
 		holeButtons.add(new NButton(new JButton(),gridx,gridy));
 		holeButtons.get(button).setBackground(Color.GRAY);
@@ -79,6 +99,11 @@ public class View extends JFrame implements Serializable {
 		panel.add(holeButtons.get(button), c);
 	}
 
+	/**
+	 * Obtains the location of a given button
+	 * @param buttonClicked
+	 * @return an array with two coordinates 
+	 */
 	public int[] getLocation(NButton buttonClicked) {
 		return new int[] { buttonClicked.getGridy(), buttonClicked.getGridx() };
 	}
@@ -156,14 +181,28 @@ public class View extends JFrame implements Serializable {
 		return holeButtons;
 	}
 	
+	/**
+	 * Ask if a given button is a peg
+	 * @param A button in the board
+	 * @return True if the given button is a peg, false otherwise
+	 */
 	public Boolean isPeg(NButton button){
 		return Arrays.asList(pegButtons).contains(button) ? true : false;
 	}
 	
+	/**
+	 * Ask if a given button is a hole
+	 * @param A button in the board
+	 * @return True if the given button is a peg, false otherwise
+	 */
 	public Boolean isHole(NButton button){
 		return Arrays.asList(holeButtons).contains(button) ? true : false;
 	}
 	
+	/**
+	 * Updates a button turning it into a peg according to the logic of the game
+	 * @param coord of the button to be updated
+	 */
 	public void updatePeg(int[] coord){
 		int index=-1;
 		for(NButton hole : holeButtons){
@@ -177,6 +216,11 @@ public class View extends JFrame implements Serializable {
 			}
 		}
 	}
+	
+	/**
+	 * Updates a button turning it into a hole according to the logic of the game
+	 * @param coord of the button to be updated
+	 */
 	public void updateHole(int[] coord){
 		int index=-1;
 		for(NButton peg : pegButtons){
@@ -189,6 +233,15 @@ public class View extends JFrame implements Serializable {
 			}
 		}
 	}
+	
+	/**
+	 * Gets the restart button
+	 * @return restart NButton 
+	 */
+	public NButton getRestartButton() {
+		return restart;
+	}
+
 	/**
 	 * Adds the panel along with its buttons to the pane.
 	 */
@@ -202,6 +255,5 @@ public class View extends JFrame implements Serializable {
 		// Figure 1 configuration
 		pane.add(panel);
 	}
-
 
 }
