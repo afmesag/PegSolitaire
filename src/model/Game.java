@@ -112,7 +112,17 @@ public class Game implements Serializable {
 		movements.push(new Movement(neighbor, start, end));
 		return true;
 	}
-
+	
+	/**
+	 * undo the movements in board 
+	 * @param The movement removed from the undo stack.
+	 */
+	public void undo(Movement removed){
+		board.setPeg(removed.getStart()[0],removed.getStart()[1]);
+		board.setHole(removed.getEnd()[0],removed.getEnd()[1]);
+		board.setPeg(removed.getNeighbor()[0],removed.getNeighbor()[1]);
+	}
+	
 	public boolean existsInList(List<int[]> list, int[] element) {
 		for (int[] item : list) {
 			if (Arrays.equals(item, element))
