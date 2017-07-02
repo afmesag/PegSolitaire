@@ -14,6 +14,7 @@ public class Game implements Serializable {
   private static final int COORDROW = 0;
   private static final int COORDCOL = 1;
   private transient Deque<Movement> movements;
+  private int countMovements = 0;
 
   /*
    * Init board, init Map with directions
@@ -92,19 +93,41 @@ public class Game implements Serializable {
     board.setHole(neighbor[COORDROW], neighbor[COORDCOL]);
     board.setHole(start[COORDROW], start[COORDCOL]);
     board.setPeg(end[COORDROW], end[COORDCOL]);
+    updateCountMovements(start);
     movements.push(new Movement(neighbor, start, end));
     return true;
   }
 
+  private void updateCountMovements(int[] start) {
+    if (!movements.isEmpty()) {
+      int[] lastMovement = movements.getFirst().getEnd();
+      if (!Arrays.equals(start, lastMovement))
+        countMovements++;
+    } else
+      countMovements++;
+  }
+
+  private void updateCountMovementsUndo(int[] start) {
+    if (!movements.isEmpty()) {
+      int[] lastMovement = movements.getFirst().getEnd();
+      if (!Arrays.equals(lastMovement, start))
+        countMovements--;
+    } else
+      countMovements--;
+  }
   /**
    * undo the movements in board
    *
    * @param removed The movement removed from the undo stack.
    */
   public void undo(Movement removed) {
-    board.setPeg(removed.getStart()[0], removed.getStart()[1]);
-    board.setHole(removed.getEnd()[0], removed.getEnd()[1]);
-    board.setPeg(removed.getNeighbor()[0], removed.getNeighbor()[1]);
+    int[] start = removed.getStart();
+    int[] end = removed.getEnd();
+    int[] neighbor = removed.getNeighbor();
+    board.setPeg(start[COORDROW], start[COORDCOL]);
+    board.setHole(end[COORDROW], end[COORDCOL]);
+    board.setPeg(neighbor[COORDROW], neighbor[COORDCOL]);
+    updateCountMovementsUndo(start);
   }
 
   public boolean existsInList(List<int[]> list, int[] element) {
@@ -237,5 +260,9 @@ public class Game implements Serializable {
     int row = coord.charAt(COORDROW) - (int) 'a';
     int col = Character.getNumericValue(coord.charAt(COORDCOL)) - 1;
     return new int[]{row, col};
+  }
+
+  public int getCountMovements() {
+    return countMovements;
   }
 }
