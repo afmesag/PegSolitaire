@@ -62,6 +62,7 @@ public class Controller implements ActionListener {
 		LinkedList<Movement> movements = (LinkedList<Movement>) game.getMovements();
 		if (!movements.isEmpty()) {
 			Movement removed = movements.removeFirst();
+			game.undo(removed);
 			view.updatePeg(removed.getStart());
 			view.updateHole(removed.getEnd());
 			view.updatePeg(removed.getNeighbor());
