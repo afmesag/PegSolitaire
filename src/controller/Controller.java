@@ -121,13 +121,20 @@ public class Controller implements ActionListener {
       }
     }
   }
-
+  
+  /**
+   * Resets the values in the start and end arrays
+   */
   public void resetValues() {
     start = resetArray();
     end = resetArray();
     startButtonSelected = null;
   }
 
+  /**
+   * Updates the grid of the game with a given direction
+   * @param direction
+   */
   public void updateGrid(int[] direction) {
     int[] neighbor = this.game.getNeighbor(start[0], start[1], direction);
     this.view.updateHole(start);
@@ -136,6 +143,9 @@ public class Controller implements ActionListener {
     this.view.setCountMovementsTest(String.valueOf(this.game.getCountMovements()));
   }
 
+  /**
+   * Informs of the outcome, win or lose
+   */
   public void informOutcome() {
     if (this.game.isWin())
       this.view.informWin();
@@ -143,6 +153,10 @@ public class Controller implements ActionListener {
       this.view.informLose();
   }
 
+  /**
+   * checks if the game was restarted (restart button clicked)
+   * @return
+   */
   public boolean wereRestarted() {
     return this.restarted;
   }

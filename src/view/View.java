@@ -75,12 +75,19 @@ public class View extends JFrame implements Serializable {
     undo.setEnabled(false);
   }
 
+  /**
+   * Sets the label of the count
+   */
   public void setLabelButton() {
     countMovements = new Label();
     setGridColRow(7, 0);
     panel.add(countMovements, c);
   }
-
+  
+  /**
+   * Sets the counter and label of the counter feature
+   * @param text
+   */
   public void setCountMovementsTest(String text) {
     this.countMovements.setText("Count: " + text);
   }
@@ -123,11 +130,19 @@ public class View extends JFrame implements Serializable {
   public int[] getLocation(NButton buttonClicked) {
     return new int[]{buttonClicked.getGridy(), buttonClicked.getGridx()};
   }
-
+  
+  /**
+   * Sets in a specific color the background of a selected button
+   * @param buttonClicked
+   */
   public void setBackgroundSelected(NButton buttonClicked) {
     buttonClicked.setBackground(Color.LIGHT_GRAY);
   }
 
+  /**
+   * Sets in a specific color the background of a deselected button
+   * @param buttonClicked
+   */
   public void setBackgroundDeselected(NButton buttonClicked) {
     buttonClicked.setBackground(null);
   }
@@ -300,17 +315,26 @@ public class View extends JFrame implements Serializable {
     setLabelButton();
     pane.add(panel);
   }
-
+  
+  /**
+   * Informs with a JOptionPane if the player won the game
+   */
   public void informWin() {
     disableBoard();
     JOptionPane.showMessageDialog(null, "You won!");
   }
-
+  
+  /**
+   * Informs with a JOptionPane if the player lost the game
+   */
   public void informLose() {
     disableBoard();
     JOptionPane.showMessageDialog(null, "You Lose!");
   }
-
+  
+  /**
+   * Disables the board
+   */
   public void disableBoard() {
     for (NButton peg : pegButtons)
       peg.setEnabled(false);

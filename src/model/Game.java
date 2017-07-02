@@ -16,8 +16,8 @@ public class Game implements Serializable {
   private transient Deque<Movement> movements;
   private int countMovements = 0;
 
-  /*
-   * Init board, init Map with directions
+  /**
+   * Inits the board and the game
    */
   public Game() {
     board = new Board();
@@ -97,7 +97,11 @@ public class Game implements Serializable {
     movements.push(new Movement(neighbor, start, end));
     return true;
   }
-
+  
+  /**
+   * Updates the counter of movements 
+   * @param start
+   */
   private void updateCountMovements(int[] start) {
     if (!movements.isEmpty()) {
       int[] lastMovement = movements.getFirst().getEnd();
@@ -107,6 +111,10 @@ public class Game implements Serializable {
       countMovements++;
   }
 
+  /**
+   * Updates the counter of movements if the undo button is pressed
+   * @param an array representing the location of the start peg
+   */
   private void updateCountMovementsUndo(int[] start) {
     if (!movements.isEmpty()) {
       int[] lastMovement = movements.getFirst().getEnd();
@@ -130,6 +138,12 @@ public class Game implements Serializable {
     updateCountMovementsUndo(start);
   }
 
+  /**
+   * checks if a element is present or exist in a given list
+   * @param list
+   * @param element
+   * @return true if the element exist in list, false otherwise
+   */
   public boolean existsInList(List<int[]> list, int[] element) {
     for (int[] item : list) {
       if (Arrays.equals(item, element))
@@ -237,6 +251,11 @@ public class Game implements Serializable {
     return movements;
   }
 
+  /**
+   * Simulates the game in a textual representation
+   * @param lines
+   * @return the result of the interpretation of the game in a textual way
+   */
   public String simulateGame(Stream<String> lines) {
     StringBuilder result = new StringBuilder();
     result.append(printBoard()).append("\n=======\n");
@@ -262,6 +281,10 @@ public class Game implements Serializable {
     return new int[]{row, col};
   }
 
+  /**
+   * gets the number of movements
+   * @return an integer representing the number of movements
+   */
   public int getCountMovements() {
     return countMovements;
   }

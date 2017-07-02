@@ -66,9 +66,9 @@ public class Board implements Serializable {
 	 *            The configuration's name
 	 */
 	public void setConfiguration(String name) {
-		if (name == "Latin cross")
+		if ("Latin cross".equals(name))
 			setLatinCross();
-		if (name == "")
+		if ("".equals(name))
 			setDefault();
 	}
 
