@@ -45,14 +45,12 @@ public class Game implements Serializable {
    */
   public List<int[]> possibleMoves(int row, int col) {
     List<int[]> moves = new ArrayList<>();
-    Iterator<String> it = directions.keySet().iterator();
-    while (it.hasNext()) {
-      String key = it.next();
+    Set<String> keys = directions.keySet();
+    for (String key : keys)
       if (canMove(row, col, directions.get(key))) {
         int[] newPos = getJumpMove(row, col, directions.get(key));
         moves.add(new int[]{newPos[COORDROW], newPos[COORDCOL]});
       }
-    }
     return moves;
   }
 
@@ -67,9 +65,8 @@ public class Game implements Serializable {
    * An empty array otherwise
    */
   public int[] getDirection(int[] start, int[] end) {
-    Iterator<String> it = directions.keySet().iterator();
-    while (it.hasNext()) {
-      String key = it.next();
+    Set<String> keys = directions.keySet();
+    for (String key : keys) {
       int[] direction = directions.get(key);
       int[] possibleEnd = getJumpMove(start[COORDROW], start[COORDCOL], direction);
       if (Arrays.equals(possibleEnd, end))
@@ -78,46 +75,6 @@ public class Game implements Serializable {
     return new int[0];
   }
 
-	/**
-	 * Make a move on the board if its possible
-	 *
-	 * @param start
-	 *            Integer array with the row ([0]) and col ([1]) of the start
-	 *            position
-	 * @param end
-	 *            Integer array with the row ([0]) and col ([1]) of the end
-	 *            position
-	 */
-	public boolean makeMove(int[] start, int[] end) {
-		List<int[]> moves = possibleMoves(start[COORDROW], start[COORDCOL]);
-		if (!existsInList(moves, new int[] { end[COORDROW], end[COORDCOL] }))
-			return false;
-		int[] direction = getDirection(start, end);
-		int[] neighbor = getNeighbor(start[COORDROW], start[COORDCOL], direction);
-		board.setHole(neighbor[COORDROW], neighbor[COORDCOL]);
-		board.setHole(start[COORDROW], start[COORDCOL]);
-		board.setPeg(end[COORDROW], end[COORDCOL]);
-		movements.push(new Movement(neighbor, start, end));
-		return true;
-	}
-
-	/**
-	 * undo the movements in board
-	 * @param The movement removed from the undo stack.
-	 */
-	public void undo(Movement removed){
-		board.setPeg(removed.getStart()[0],removed.getStart()[1]);
-		board.setHole(removed.getEnd()[0],removed.getEnd()[1]);
-		board.setPeg(removed.getNeighbor()[0],removed.getNeighbor()[1]);
-	}
-
-	public boolean existsInList(List<int[]> list, int[] element) {
-		for (int[] item : list) {
-			if (Arrays.equals(item, element))
-				return true;
-		}
-		return false;
-	}
   /**
    * Make a move on the board if its possible
    *
@@ -137,6 +94,17 @@ public class Game implements Serializable {
     board.setPeg(end[COORDROW], end[COORDCOL]);
     movements.push(new Movement(neighbor, start, end));
     return true;
+  }
+
+  /**
+   * undo the movements in board
+   *
+   * @param removed The movement removed from the undo stack.
+   */
+  public void undo(Movement removed) {
+    board.setPeg(removed.getStart()[0], removed.getStart()[1]);
+    board.setHole(removed.getEnd()[0], removed.getEnd()[1]);
+    board.setPeg(removed.getNeighbor()[0], removed.getNeighbor()[1]);
   }
 
   public boolean existsInList(List<int[]> list, int[] element) {
@@ -215,9 +183,7 @@ public class Game implements Serializable {
     if (jumpRow < 0 || jumpRow >= board.getSize())
       return false;
     int jumpCol = neighbor[COORDCOL] + direction[COORDCOL];
-    if (jumpCol < 0 || jumpCol >= board.getSize())
-      return false;
-    return board.getSymbol(jumpRow, jumpCol) == Symbol.O;
+    return !(jumpCol < 0 || jumpCol >= board.getSize()) && board.getSymbol(jumpRow, jumpCol) == Symbol.O;
   }
 
   /**
@@ -250,13 +216,13 @@ public class Game implements Serializable {
 
   public String simulateGame(Stream<String> lines) {
     StringBuilder result = new StringBuilder();
-    result.append(printBoard() + "\n=======\n");
-    lines.forEach(item -> {
+    result.append(printBoard()).append("\n=======\n");
+    lines.forEach((String item) -> {
       String[] move = item.split(" ");
       int[] start = convertNotationToArray(move[0]);
       int[] end = convertNotationToArray(move[1]);
       if (makeMove(start, end))
-        result.append(printBoard() + "\n=======\n");
+        result.append(printBoard()).append("\n=======\n");
     });
     return result.toString();
   }

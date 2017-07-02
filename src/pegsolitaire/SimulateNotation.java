@@ -9,9 +9,6 @@ import java.nio.file.Paths;
 import java.util.logging.*;
 import java.util.stream.Stream;
 
-/**
- * Created by afmesag on 01.07.17.
- */
 public class SimulateNotation {
   private static final Logger LOGGER = Logger.getLogger("logger");
 
@@ -21,7 +18,7 @@ public class SimulateNotation {
     setLogger();
     Path path = Paths.get("in");
     try (BufferedReader reader = Files.newBufferedReader(path);
-         PrintWriter writer = new PrintWriter("out");) {
+         PrintWriter writer = new PrintWriter("out")) {
       Stream<String> lines = reader.lines();
       String result = game.simulateGame(lines);
       writer.write(result);
