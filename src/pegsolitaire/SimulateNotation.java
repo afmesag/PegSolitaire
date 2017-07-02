@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.logging.*;
 import java.util.stream.Stream;
 
-import com.sun.xml.internal.ws.handler.HandlerException;
 
 public class SimulateNotation {
 	
@@ -34,7 +33,7 @@ public class SimulateNotation {
 		}
 	}
 
-	private static void setLogger() {
+	private static void setLogger() throws IOException {
 		try {
 			Handler consoleHandler = new ConsoleHandler();
 			Handler fileHandler = new FileHandler("logger.xml", false);
@@ -44,7 +43,7 @@ public class SimulateNotation {
 			fileHandler.setLevel(Level.ALL);
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
-			throw new HandlerException(e); 
+			throw new IOException(e); 
 		}
 	}
 }
